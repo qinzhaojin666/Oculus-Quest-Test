@@ -11,10 +11,10 @@ public class HandPresence : MonoBehaviour
     public bool showController = false;
     public InputDeviceCharacteristics controllerCharacteristics;
     public List<GameObject> controllerPrefabs;
-    //public GameObject handModelPrefab;
+    public GameObject handModelPrefab;
     private InputDevice targetDevice;
     private GameObject spawnedController;
-    //private GameObject spawnedHandModel;
+    private GameObject spawnedHandModel;
     void Start()
     {
         List<InputDevice> devices = new List<InputDevice>();
@@ -34,7 +34,8 @@ public class HandPresence : MonoBehaviour
             GameObject prefab = controllerPrefabs.Find(controllerPrefebs=>controllerPrefebs.name == targetDevice.name);
             if(prefab)
             {
-                spawnedController = Instantiate(prefab, transform);                
+                spawnedController = Instantiate(prefab, transform);     
+                //spawnedHandModel = Instantiate(handModelPrefab, transform);           
             }
             else
             {
@@ -42,7 +43,7 @@ public class HandPresence : MonoBehaviour
                 spawnedController = Instantiate(controllerPrefabs[0], transform);
             }
 
-            //spawnedHandModel = Instantiate(handModelPrefab, transform);
+            spawnedHandModel = Instantiate(handModelPrefab, transform);
         }
         
 
@@ -50,8 +51,7 @@ public class HandPresence : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
+    {        
         if(targetDevice.TryGetFeatureValue(CommonUsages.primaryButton,out bool primaryButtonValue) && primaryButtonValue)
             Debug.Log("Primary Button has been pressed");
 
@@ -60,7 +60,7 @@ public class HandPresence : MonoBehaviour
 
         if(targetDevice.TryGetFeatureValue(CommonUsages.primary2DAxis,out Vector2 primary2DAxisValue) && primary2DAxisValue != Vector2.zero)
             Debug.Log("Primary2DAxis has been pressed" + primary2DAxisValue);
-        /*
+        
         if(showController)
         {
             spawnedHandModel.SetActive(false);
@@ -70,6 +70,6 @@ public class HandPresence : MonoBehaviour
         {
             spawnedHandModel.SetActive(true);
             spawnedController.SetActive(false);      
-        }*/
+        }
     }
 }
